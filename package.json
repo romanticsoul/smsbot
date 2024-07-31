@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "bun index.ts",
-    "dev": "bun --hot index.ts"
+    "dev": "bun --watch index.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"
@@ -13,6 +13,11 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "grammy": "^1.27.0"
+    "@grammyjs/hydrate": "^1.4.1",
+    "@grammyjs/i18n": "^1.0.2",
+    "@grammyjs/menu": "^1.2.2",
+    "@types/lodash": "^4.17.7",
+    "grammy": "^1.27.0",
+    "lodash": "^4.17.21"
   }
 }
