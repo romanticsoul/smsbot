@@ -1,4 +1,4 @@
-console.log("Запуск бота!");
+console.log('Hello Bot!');
 
 import {
   Bot,
@@ -7,78 +7,208 @@ import {
   HttpError,
   session,
   type SessionFlavor,
-} from "grammy";
-import { hydrate, type HydrateFlavor } from "@grammyjs/hydrate";
-import { I18n, type I18nFlavor } from "@grammyjs/i18n";
-import { Menu } from "@grammyjs/menu";
-import { chunk } from "lodash";
+} from 'grammy';
+import { hydrate, type HydrateFlavor } from '@grammyjs/hydrate';
+import { I18n, type I18nFlavor } from '@grammyjs/i18n';
+import { Menu } from '@grammyjs/menu';
+import { chunk } from 'lodash';
+
+import services from './JSON/services.json';
+import countries from './JSON/countries.json';
+
+import { getServices } from './api/getServices';
+import { getPrices } from './api/getPrices';
+import { initData } from './api/initData';
 
 type SessionData = {
   __language_code?: string;
+  countryActivePage: number;
+  serviceActivePage: number;
+  selected_country?: (typeof countries)[number];
+  selected_service?: (typeof services)[number] & { count: number };
 };
 
-type MyContext = HydrateFlavor<Context> &
-  SessionFlavor<SessionData> &
-  I18nFlavor;
+type MyContext = HydrateFlavor<Context> & SessionFlavor<SessionData> & I18nFlavor;
 
 const bot = new Bot<MyContext>(process.env.BOT_TOKEN!);
 
 const i18n = new I18n<MyContext>({
-  defaultLocale: "ru",
+  defaultLocale: 'ru',
   useSession: true,
-  directory: "locales",
+  directory: 'locales',
 });
 
 bot.use(
   session({
-    initial: () => {
-      return {};
+    initial: (): SessionData => {
+      return {
+        countryActivePage: 0,
+        serviceActivePage: 0,
+        selected_country: countries[0],
+      };
     },
   })
 );
-bot.use(i18n);
 bot.use(hydrate());
+bot.use(i18n);
 
-// СЕРВИСЫ
-const serviceMenu = new Menu<MyContext>("service-menu")
-  .back("Назад", (ctx) => ctx.editMessageText(ctx.t("service")))
-  .dynamic((ctx, range) => {
-    const serviceId = ctx.match;
-    range.text(`Купить номер ${serviceId}`);
-  });
+/**
+ *
+ * МЕНЮ ПОКУПКИ НОМЕРА
+ *
+ */
 
-const pages = chunk([1, 2, 3, 4, 5, 6, 7, 8, 9], 3);
-const serviceListMenu = new Menu<MyContext>("service-list-menu")
-  .dynamic((ctx, range) => {
-    pages[0].forEach((service, i) => {
-      range.submenu(
-        { text: `${service}`, payload: `${service}` },
-        "service-menu",
-        (ctx) => ctx.editMessageText("Сервис " + service)
-      );
+await initData();
+
+const buyNumberMessage = 'Купить номер...';
+const buyNumberMenu = new Menu<MyContext>('buy-number-menu');
+buyNumberMenu.dynamic(async (ctx, range) => {
+  const country = ctx.session.selected_country;
+  const service = ctx.session.selected_service;
+
+  if (country && service) {
+    const s = await getPrices(country!.id, service!.id);
+    console.log(s);
+  }
+
+  range.text('Получить СМС');
+  range.row();
+  range.text('Добавить в избранное');
+  range.submenu(
+    { text: 'Изменить страну', payload: 'from-buy-number' },
+    'change-country-menu',
+    (ctx) => ctx.editMessageText(ctx.t('change-country'))
+  );
+
+  range.row();
+  range.back('Назад', (ctx) => ctx.editMessageText(ctx.t('service')));
+  range.submenu('На главную', 'main-menu', (ctx) => ctx.editMessageText(ctx.t('main')));
+});
+
+/**
+ *
+ * МЕНЮ ВЫБОРА СЕРВИСА
+ *
+ */
+const changeServiceMenu = new Menu<MyContext>('change-service-menu');
+changeServiceMenu.dynamic(async (ctx, range) => {
+  const services = await getServices(ctx.session.selected_country!.id);
+
+  if (services.length) {
+    const servicesPages = chunk(services, 18);
+    const session = await ctx.session;
+    servicesPages[session.serviceActivePage].forEach((s, i) => {
+      range.submenu(s.name, 'buy-number-menu', async (ctx) => {
+        ctx.session.selected_service = s;
+        await ctx.editMessageText(buyNumberMessage);
+      });
+
       if (i % 3 === 2) range.row();
     });
-  })
-  .back("На главную", (ctx) => ctx.editMessageText(ctx.t("main")));
 
-serviceListMenu.register(serviceMenu);
+    range.row();
+    if (session.serviceActivePage > 0) {
+      range.submenu('Назад', 'change-service-menu', () => {
+        session.serviceActivePage--;
+      });
+    } else range.text('ㅤ');
 
-// ГЛАВНАЯ
-const mainMenu = new Menu<MyContext>("main-menu")
-  .submenu("Купить номер", "service-list-menu", (ctx) =>
-    ctx.editMessageText(ctx.t("service"))
+    if (session.serviceActivePage > 0) {
+      range.submenu(
+        `${session.serviceActivePage + 1}/${servicesPages.length}`,
+        'change-service-menu',
+        () => (session.serviceActivePage = 0)
+      );
+    } else range.text(`${session.serviceActivePage + 1}/${servicesPages.length}`);
+
+    if (session.serviceActivePage < servicesPages.length - 1) {
+      range.submenu('Далее', 'change-service-menu', () => {
+        session.serviceActivePage++;
+      });
+    } else range.text('ㅤ');
+  }
+
+  range.row().back('На главную', (ctx) => ctx.editMessageText(ctx.t('main')));
+});
+changeServiceMenu.register(buyNumberMenu);
+
+/**
+ *
+ * МЕНЮ ИЗМЕНЕНИЯ СТРАНЫ
+ *
+ */
+const countriesPages = chunk(countries, 18);
+const changeCountryMenu = new Menu<MyContext>('change-country-menu');
+changeCountryMenu.dynamic(async (ctx, range) => {
+  const session = await ctx.session;
+  const locale = await ctx.i18n.getLocale();
+
+  countriesPages[session.countryActivePage].forEach((c, i) => {
+    const text = `${c.emoji} ${locale === 'ru' ? c.ru_name : c.en_name}`;
+
+    range.submenu(text, 'main-menu', async (ctx) => {
+      ctx.session.selected_country = c;
+      ctx.session.serviceActivePage = 0;
+      await ctx.editMessageText(ctx.t('main'));
+    });
+
+    if (i % 3 === 2) range.row();
+  });
+
+  range.row();
+  if (session.countryActivePage > 0) {
+    range.submenu('Назад', 'change-country-menu', () => {
+      session.countryActivePage--;
+    });
+  } else range.text('ㅤ');
+
+  if (session.countryActivePage > 0) {
+    range.submenu(
+      `${session.countryActivePage + 1}/${countriesPages.length}`,
+      'change-country-menu',
+      () => (session.countryActivePage = 0)
+    );
+  } else range.text(`${session.countryActivePage + 1}/${countriesPages.length}`);
+
+  if (session.countryActivePage < countriesPages.length - 1) {
+    range.submenu('Далее', 'change-country-menu', () => {
+      session.countryActivePage++;
+    });
+  } else range.text('ㅤ');
+
+  range.row().back('На главную', (ctx) => ctx.editMessageText(ctx.t('main')));
+});
+
+/**
+ *
+ * ГЛАВНОЕ МЕНЮ
+ *
+ */
+const mainMenu = new Menu<MyContext>('main-menu')
+  .submenu('Купить номер', 'change-service-menu', (ctx) =>
+    ctx.editMessageText(ctx.t('service'))
   )
-  .text("Избранное")
+  .text('Избранное')
   .row()
-  .text("Изменить страну")
-  .text("Пополнить баланс");
+  .submenu('Изменить страну', 'change-country-menu', (ctx) =>
+    ctx.editMessageText(ctx.t('change-country'))
+  )
+  .text('Пополнить баланс');
 
-mainMenu.register(serviceListMenu);
+mainMenu.register(changeServiceMenu, 'main-menu');
+mainMenu.register(changeCountryMenu);
 
 bot.use(mainMenu);
 
-bot.command("start", (ctx) => {
-  ctx.reply(ctx.t("main"), { reply_markup: mainMenu });
+/**
+ *
+ * БЛОК ЗАПУСКА БОТА
+ *
+ */
+bot.command('start', (ctx) => {
+  ctx.reply(`${ctx.t('main')}: ${ctx.session.selected_country?.emoji}`, {
+    reply_markup: mainMenu,
+  });
 });
 
 bot.start();
@@ -87,10 +217,10 @@ bot.catch((err) => {
   console.error(`Ошибка при обработке обновления ${ctx.update.update_id}:`);
   const e = err.error;
   if (e instanceof GrammyError) {
-    console.error("Ошибка в запросе:", e.description);
+    console.error('Ошибка в запросе:', e.description);
   } else if (e instanceof HttpError) {
-    console.error("Не удалось связаться с Telegram:", e);
+    console.error('Не удалось связаться с Telegram:', e);
   } else {
-    console.error("Неизвестная ошибка:", e);
+    console.error('Неизвестная ошибка:', e);
   }
 });

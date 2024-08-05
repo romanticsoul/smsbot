@@ -3,3 +3,6 @@ main =
 
 service =
   Сервисы
+
+change-country = 
+  Страны

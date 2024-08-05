@@ -1,0 +1,1593 @@
+[
+  {
+    "id": 0,
+    "ru_name": "Россия",
+    "en_name": "Russia",
+    "emoji": "🇷🇺",
+    "operators": [
+      "aiva",
+      "beeline",
+      "center2m",
+      "danycom",
+      "ezmobile",
+      "gazprombank_mobile",
+      "lycamobile",
+      "matrix",
+      "mcn",
+      "megafon",
+      "motiv",
+      "mts",
+      "mtt",
+      "mtt_virtual",
+      "rostelecom",
+      "sber",
+      "simsim",
+      "tele2",
+      "tinkoff",
+      "ttk",
+      "vtb_mobile",
+      "winmobile",
+      "yota"
+    ]
+  },
+  {
+    "id": 1,
+    "ru_name": "Украина",
+    "en_name": "Ukraine",
+    "emoji": "🇺🇦",
+    "operators": [
+      "3mob",
+      "intertelecom",
+      "kyivstar",
+      "life",
+      "lycamobile",
+      "mts",
+      "utel",
+      "vodafone"
+    ]
+  },
+  {
+    "id": 2,
+    "ru_name": "Казахстан",
+    "en_name": "Kazakhstan",
+    "emoji": "🇰🇿",
+    "operators": ["activ", "altel", "beeline", "forte_mobile", "kcell", "tele2"]
+  },
+  {
+    "id": 3,
+    "ru_name": "Китай",
+    "en_name": "China",
+    "emoji": "🇨🇳",
+    "operators": ["chinamobile", "china_unicom", "unicom"]
+  },
+  {
+    "id": 4,
+    "ru_name": "Филиппины",
+    "en_name": "Philippines",
+    "emoji": "🇵🇭",
+    "operators": ["globe_telecom", "smart", "tm"]
+  },
+  {
+    "id": 5,
+    "ru_name": "Мьянма",
+    "en_name": "Myanmar",
+    "emoji": "🇲🇲",
+    "operators": ["mpt", "mytel", "ooredoo", "telenor"]
+  },
+  {
+    "id": 6,
+    "ru_name": "Индонезия",
+    "en_name": "Indonesia",
+    "emoji": "🇮🇩",
+    "operators": ["axis", "indosat", "smartfren", "telkomsel", "three"]
+  },
+  {
+    "id": 7,
+    "ru_name": "Малайзия",
+    "en_name": "Malaysia",
+    "emoji": "🇲🇾",
+    "operators": [
+      "celcom",
+      "digi",
+      "hotlink",
+      "tune_talk",
+      "u_mobile",
+      "xox",
+      "yes"
+    ]
+  },
+  {
+    "id": 8,
+    "ru_name": "Кения",
+    "en_name": "Kenya",
+    "emoji": "🇰🇪",
+    "operators": ["airtel", "econet", "orange", "safaricom", "telkom"]
+  },
+  {
+    "id": 9,
+    "ru_name": "Танзания",
+    "en_name": "Tanzania",
+    "emoji": "🇹🇿",
+    "operators": ["airtel", "halotel", "tigo", "ttcl", "vodacom"]
+  },
+  {
+    "id": 10,
+    "ru_name": "Вьетнам",
+    "en_name": "Vietnam",
+    "emoji": "🇻🇳",
+    "operators": [
+      "itelecom",
+      "mobifone",
+      "vietnamobile",
+      "viettel",
+      "vinaphone",
+      "wintel"
+    ]
+  },
+  {
+    "id": 11,
+    "ru_name": "Кыргызстан",
+    "en_name": "Kyrgyzstan",
+    "emoji": "🇰🇬",
+    "operators": ["beeline", "megacom", "o!"]
+  },
+  {
+    "id": 12,
+    "ru_name": "США (виртуальные)",
+    "en_name": "USA",
+    "emoji": "🇺🇸",
+    "operators": ["cellular", "tmobile"]
+  },
+  {
+    "id": 13,
+    "ru_name": "Израиль",
+    "en_name": "Israel",
+    "emoji": "🇮🇱",
+    "operators": [
+      "019mobile",
+      "golan_telecom",
+      "home_cellular",
+      "hot_mobile",
+      "jawwal",
+      "ooredoo",
+      "orange",
+      "pelephone",
+      "rami_levy"
+    ]
+  },
+  {
+    "id": 14,
+    "ru_name": "Гонконг",
+    "en_name": "Hongkong",
+    "emoji": "🇭🇰",
+    "operators": [
+      "chinamobile",
+      "csl_mobile",
+      "imc",
+      "lucky_sim",
+      "smartone",
+      "three",
+      "unicom"
+    ]
+  },
+  {
+    "id": 15,
+    "ru_name": "Польша",
+    "en_name": "Poland",
+    "emoji": "🇵🇱",
+    "operators": [
+      "a2_mobile",
+      "aero2",
+      "e_telko",
+      "heyah",
+      "klucz",
+      "lycamobile",
+      "netia",
+      "nju",
+      "orange",
+      "play",
+      "plus",
+      "plush",
+      "red_bull_mobile",
+      "tmobile",
+      "virgin"
+    ]
+  },
+  {
+    "id": 16,
+    "ru_name": "Англия",
+    "en_name": "England",
+    "emoji": "🇬🇧",
+    "operators": [
+      "cmlink",
+      "ee",
+      "ezmobile",
+      "giffgaff",
+      "lebara",
+      "lycamobile",
+      "o2",
+      "orange",
+      "talk_telecom",
+      "tata_communications",
+      "teleena",
+      "three",
+      "tmobile",
+      "vectone",
+      "vodafone"
+    ]
+  },
+  {
+    "id": 17,
+    "ru_name": "Мадагаскар",
+    "en_name": "Madagascar",
+    "emoji": "🇲🇬",
+    "operators": ["orange"]
+  },
+  {
+    "id": 18,
+    "ru_name": "Дем.Конго",
+    "en_name": "Dcongo",
+    "emoji": "🇨🇩",
+    "operators": ["africel", "airtel", "orange", "vodacom"]
+  },
+  {
+    "id": 19,
+    "ru_name": "Нигерия",
+    "en_name": "Nigeria",
+    "emoji": "🇳🇬",
+    "operators": ["airtel", "etisalat", "glomobile", "mtn"]
+  },
+  {
+    "id": 20,
+    "ru_name": "Макао",
+    "en_name": "Macao",
+    "emoji": "🇲🇴",
+    "operators": ["3macao"]
+  },
+  {
+    "id": 21,
+    "ru_name": "Египет",
+    "en_name": "Egypt",
+    "emoji": "🇪🇬",
+    "operators": ["etisalat", "orange", "vodafone"]
+  },
+  {
+    "id": 22,
+    "ru_name": "Индия",
+    "en_name": "India",
+    "emoji": "🇮🇳",
+    "operators": ["airtel"]
+  },
+  {
+    "id": 23,
+    "ru_name": "Ирландия",
+    "en_name": "Ireland",
+    "emoji": "🇮🇪",
+    "operators": [
+      "48mobile",
+      "cablenet",
+      "eir",
+      "lycamobile",
+      "tesco",
+      "vodafone"
+    ]
+  },
+  {
+    "id": 24,
+    "ru_name": "Камбоджа",
+    "en_name": "Cambodia",
+    "emoji": "🇰🇭",
+    "operators": ["metfone", "smart"]
+  },
+  {
+    "id": 25,
+    "ru_name": "Лаос",
+    "en_name": "Laos",
+    "emoji": "🇱🇦",
+    "operators": ["etl", "telekom", "tplus", "unitel"]
+  },
+  {
+    "id": 26,
+    "ru_name": "Гаити",
+    "en_name": "Haiti",
+    "emoji": "🇭🇹",
+    "operators": ["natcom"]
+  },
+  {
+    "id": 27,
+    "ru_name": "Кот д'Ивуар",
+    "en_name": "Ivory",
+    "emoji": "🇨🇮",
+    "operators": ["moov", "mtn", "orange"]
+  },
+  {
+    "id": 28,
+    "ru_name": "Гамбия",
+    "en_name": "Gambia",
+    "emoji": "🇬🇲",
+    "operators": ["africel", "comium", "gamcel", "qcell"]
+  },
+  {
+    "id": 29,
+    "ru_name": "Сербия",
+    "en_name": "Serbia",
+    "emoji": "🇷🇸",
+    "operators": ["a1", "mobtel", "mts", "vip"]
+  },
+  {
+    "id": 30,
+    "ru_name": "Йемен",
+    "en_name": "Yemen",
+    "emoji": "🇾🇪",
+    "operators": ["mtn", "sabafon", "yemen_mobile"]
+  },
+  {
+    "id": 31,
+    "ru_name": "Южная Африка",
+    "en_name": "Southafrica",
+    "emoji": "🇿🇦",
+    "operators": ["cell_c", "lycamobile", "mtn", "telkom", "vodacom"]
+  },
+  {
+    "id": 32,
+    "ru_name": "Румыния",
+    "en_name": "Romania",
+    "emoji": "🇷🇴",
+    "operators": [
+      "benefito_mobile",
+      "digi",
+      "lycamobile",
+      "my_avon",
+      "orange",
+      "runex_telecom",
+      "telekom",
+      "vodafone"
+    ]
+  },
+  {
+    "id": 33,
+    "ru_name": "Колумбия",
+    "en_name": "Colombia",
+    "emoji": "🇨🇴",
+    "operators": ["claro", "etb", "exito", "movistar", "tigo", "virgin", "wom"]
+  },
+  {
+    "id": 34,
+    "ru_name": "Эстония",
+    "en_name": "Estonia",
+    "emoji": "🇪🇪",
+    "operators": ["elisa", "goodline", "super", "tele2", "topconnect"]
+  },
+  {
+    "id": 35,
+    "ru_name": "Азербайджан",
+    "en_name": "Azerbaijan",
+    "emoji": "🇦🇿",
+    "operators": ["azerfon", "humans"]
+  },
+  {
+    "id": 36,
+    "ru_name": "Канада",
+    "en_name": "Canada",
+    "emoji": "🇨🇦",
+    "operators": ["cellular", "chatrmobile", "fido", "lucky", "rogers", "telus"]
+  },
+  {
+    "id": 37,
+    "ru_name": "Марокко",
+    "en_name": "Morocco",
+    "emoji": "🇲🇦",
+    "operators": ["iam", "inwi", "itissalat", "orange"]
+  },
+  {
+    "id": 38,
+    "ru_name": "Гана",
+    "en_name": "Ghana",
+    "emoji": "🇬🇭",
+    "operators": ["airtel", "glomobile", "millicom", "mtn", "vodafone"]
+  },
+  {
+    "id": 39,
+    "ru_name": "Аргентина",
+    "en_name": "Argentina",
+    "emoji": "🇦🇷",
+    "operators": ["claro", "movistar", "personal", "tuenti"]
+  },
+  {
+    "id": 40,
+    "ru_name": "Узбекистан",
+    "en_name": "Uzbekistan",
+    "emoji": "🇺🇿",
+    "operators": ["beeline", "humans", "mobiuz", "mts", "ucell", "uzmobile"]
+  },
+  {
+    "id": 41,
+    "ru_name": "Камерун",
+    "en_name": "Cameroon",
+    "emoji": "🇨🇲",
+    "operators": ["mtn", "nexttel", "orange"]
+  },
+  {
+    "id": 42,
+    "ru_name": "Чад",
+    "en_name": "Chad",
+    "emoji": "🇹🇩",
+    "operators": ["airtel", "salam", "tigo"]
+  },
+  {
+    "id": 43,
+    "ru_name": "Германия",
+    "en_name": "Germany",
+    "emoji": "🇩🇪",
+    "operators": [
+      "fonic",
+      "lebara",
+      "lycamobile",
+      "o2",
+      "ortel_mobile",
+      "telekom",
+      "vodafone"
+    ]
+  },
+  {
+    "id": 44,
+    "ru_name": "Литва",
+    "en_name": "Lithuania",
+    "emoji": "🇱🇹",
+    "operators": ["bite", "tele2", "telia"]
+  },
+  {
+    "id": 45,
+    "ru_name": "Хорватия",
+    "en_name": "Croatia",
+    "emoji": "🇭🇷",
+    "operators": ["a1", "bonbon", "tele2", "telemach", "tmobile", "tomato"]
+  },
+  {
+    "id": 46,
+    "ru_name": "Швеция",
+    "en_name": "Sweden",
+    "emoji": "🇸🇪",
+    "operators": [
+      "comviq",
+      "lycamobile",
+      "netmore",
+      "tele2",
+      "telenor",
+      "telia",
+      "three",
+      "vectone",
+      "vodafone"
+    ]
+  },
+  {
+    "id": 47,
+    "ru_name": "Ирак",
+    "en_name": "Iraq",
+    "emoji": "🇮🇶",
+    "operators": ["asiacell", "korek", "zain"]
+  },
+  {
+    "id": 48,
+    "ru_name": "Нидерланды",
+    "en_name": "Netherlands",
+    "emoji": "🇳🇱",
+    "operators": [
+      "kpn",
+      "lebara",
+      "lycamobile",
+      "l_mobi",
+      "tmobile",
+      "vodafone"
+    ]
+  },
+  {
+    "id": 49,
+    "ru_name": "Латвия",
+    "en_name": "Latvia",
+    "emoji": "🇱🇻",
+    "operators": ["bite", "lmt", "tele2", "xomobile"]
+  },
+  {
+    "id": 50,
+    "ru_name": "Австрия",
+    "en_name": "Austria",
+    "emoji": "🇦🇹",
+    "operators": [
+      "a1",
+      "eety",
+      "hot_mobile",
+      "lidl",
+      "lycamobile",
+      "magenta",
+      "orange",
+      "telering",
+      "three",
+      "tmobile",
+      "wowww",
+      "yesss"
+    ]
+  },
+  {
+    "id": 51,
+    "ru_name": "Беларусь",
+    "en_name": "Belarus",
+    "emoji": "🇧🇾",
+    "operators": ["best", "life", "mdc", "mts"]
+  },
+  {
+    "id": 52,
+    "ru_name": "Таиланд",
+    "en_name": "Thailand",
+    "emoji": "🇹🇭",
+    "operators": ["ais", "cat_mobile", "dtac", "my", "truemove"]
+  },
+  {
+    "id": 53,
+    "ru_name": "Сауд. Аравия",
+    "en_name": "Saudiarabia",
+    "emoji": "🇸🇦",
+    "operators": []
+  },
+  {
+    "id": 54,
+    "ru_name": "Мексика",
+    "en_name": "Mexico",
+    "emoji": "🇲🇽",
+    "operators": ["telcel"]
+  },
+  {
+    "id": 55,
+    "ru_name": "Тайвань",
+    "en_name": "Taiwan",
+    "emoji": "🇹🇼",
+    "operators": ["chunghwa", "fareast"]
+  },
+  {
+    "id": 56,
+    "ru_name": "Испания",
+    "en_name": "Spain",
+    "emoji": "🇪🇸",
+    "operators": [
+      "altecom",
+      "cube_movil",
+      "euskaltel",
+      "finetwork",
+      "lebara",
+      "llamaya",
+      "lycamobile",
+      "masmovil",
+      "movistar",
+      "orange",
+      "tmobile",
+      "vodafone",
+      "yoigo",
+      "you_mobile"
+    ]
+  },
+  {
+    "id": 57,
+    "ru_name": "Иран",
+    "en_name": "Iran",
+    "emoji": "🇮🇷",
+    "operators": [
+      "aptel",
+      "azartel",
+      "hamrah_e_aval",
+      "irancell",
+      "mtn",
+      "rightel",
+      "samantel",
+      "shatel",
+      "taliya",
+      "tci"
+    ]
+  },
+  {
+    "id": 58,
+    "ru_name": "Алжир",
+    "en_name": "Algeria",
+    "emoji": "🇩🇿",
+    "operators": ["djezzy", "mobilis", "ooredoo"]
+  },
+  {
+    "id": 59,
+    "ru_name": "Словения",
+    "en_name": "Slovenia",
+    "emoji": "🇸🇮",
+    "operators": ["a1", "telekom", "telemach"]
+  },
+  {
+    "id": 60,
+    "ru_name": "Бангладеш",
+    "en_name": "Bangladesh",
+    "emoji": "🇧🇩",
+    "operators": []
+  },
+  {
+    "id": 61,
+    "ru_name": "Сенегал",
+    "en_name": "Senegal",
+    "emoji": "🇸🇳",
+    "operators": ["expresso", "free", "orange"]
+  },
+  {
+    "id": 62,
+    "ru_name": "Турция",
+    "en_name": "Turkey",
+    "emoji": "🇹🇷",
+    "operators": ["turkcell", "turk_telekom", "vodafone"]
+  },
+  {
+    "id": 63,
+    "ru_name": "Чехия",
+    "en_name": "Czech",
+    "emoji": "🇨🇿",
+    "operators": ["kaktus", "o2", "tmobile", "vodafone"]
+  },
+  {
+    "id": 64,
+    "ru_name": "Шри-Ланка",
+    "en_name": "Srilanka",
+    "emoji": "🇱🇰",
+    "operators": ["airtel", "dialog", "etisalat", "hutch", "sltmobitel"]
+  },
+  {
+    "id": 65,
+    "ru_name": "Перу",
+    "en_name": "Peru",
+    "emoji": "🇵🇪",
+    "operators": ["movistar"]
+  },
+  {
+    "id": 66,
+    "ru_name": "Пакистан",
+    "en_name": "Pakistan",
+    "emoji": "🇵🇰",
+    "operators": ["jazz", "ptcl", "sco", "telenor", "ufone", "zong"]
+  },
+  {
+    "id": 67,
+    "ru_name": "Новая Зеландия",
+    "en_name": "Newzealand",
+    "emoji": "🇳🇿",
+    "operators": [
+      "2degree",
+      "one_nz",
+      "skinny",
+      "spark",
+      "vodafone",
+      "warehouse"
+    ]
+  },
+  {
+    "id": 68,
+    "ru_name": "Гвинея",
+    "en_name": "Guinea",
+    "emoji": "🇬🇳",
+    "operators": ["cellcom", "mtn", "orange", "sotelgui", "telecel"]
+  },
+  {
+    "id": 69,
+    "ru_name": "Мали",
+    "en_name": "Mali",
+    "emoji": "🇲🇱",
+    "operators": ["malitel", "orange", "telecel"]
+  },
+  {
+    "id": 70,
+    "ru_name": "Венесуэла",
+    "en_name": "Venezuela",
+    "emoji": "🇻🇪",
+    "operators": []
+  },
+  {
+    "id": 71,
+    "ru_name": "Эфиопия",
+    "en_name": "Ethiopia",
+    "emoji": "🇪🇹",
+    "operators": ["mtn", "safaricom"]
+  },
+  {
+    "id": 72,
+    "ru_name": "Монголия",
+    "en_name": "Mongolia",
+    "emoji": "🇲🇳",
+    "operators": ["beeline"]
+  },
+  {
+    "id": 73,
+    "ru_name": "Бразилия",
+    "en_name": "Brazil",
+    "emoji": "🇧🇷",
+    "operators": [
+      "algartelecom",
+      "arqia",
+      "claro",
+      "correios_celular",
+      "nlt",
+      "oi",
+      "tim",
+      "vivo"
+    ]
+  },
+  {
+    "id": 74,
+    "ru_name": "Афганистан",
+    "en_name": "Afghanistan",
+    "emoji": "🇦🇫",
+    "operators": ["salaam"]
+  },
+  {
+    "id": 75,
+    "ru_name": "Уганда",
+    "en_name": "Uganda",
+    "emoji": "🇺🇬",
+    "operators": [
+      "airtel",
+      "k2_telecom",
+      "lycamobile",
+      "mtn",
+      "orange",
+      "smart",
+      "smile",
+      "uganda_telecom"
+    ]
+  },
+  {
+    "id": 76,
+    "ru_name": "Ангола",
+    "en_name": "Angola",
+    "emoji": "🇦🇴",
+    "operators": ["africel", "unitel"]
+  },
+  {
+    "id": 77,
+    "ru_name": "Кипр",
+    "en_name": "Cyprus",
+    "emoji": "🇨🇾",
+    "operators": [
+      "cablenet",
+      "cyta",
+      "epic",
+      "lemontel",
+      "primetel",
+      "vectone",
+      "vodafone"
+    ]
+  },
+  {
+    "id": 78,
+    "ru_name": "Франция",
+    "en_name": "France",
+    "emoji": "🇫🇷",
+    "operators": [
+      "bouygues",
+      "free",
+      "kena_mobile",
+      "lebara",
+      "lycamobile",
+      "orange",
+      "sfr",
+      "syma_mobile",
+      "vectone"
+    ]
+  },
+  {
+    "id": 79,
+    "ru_name": "Папуа-Новая Гвинея",
+    "en_name": "Papua",
+    "emoji": "🇵🇬",
+    "operators": []
+  },
+  {
+    "id": 80,
+    "ru_name": "Мозамбик",
+    "en_name": "Mozambique",
+    "emoji": "🇲🇿",
+    "operators": ["vodacom"]
+  },
+  {
+    "id": 81,
+    "ru_name": "Непал",
+    "en_name": "Nepal",
+    "emoji": "🇳🇵",
+    "operators": []
+  },
+  {
+    "id": 82,
+    "ru_name": "Бельгия",
+    "en_name": "Belgium",
+    "emoji": "🇧🇪",
+    "operators": [
+      "bandwidth",
+      "base",
+      "infrabel",
+      "lycamobile",
+      "nethys",
+      "orange",
+      "proximus",
+      "vectone"
+    ]
+  },
+  {
+    "id": 83,
+    "ru_name": "Болгария",
+    "en_name": "Bulgaria",
+    "emoji": "🇧🇬",
+    "operators": ["a1", "telenor", "vivacom", "yettel"]
+  },
+  {
+    "id": 84,
+    "ru_name": "Венгрия",
+    "en_name": "Hungary",
+    "emoji": "🇭🇺",
+    "operators": ["tmobile", "vodafone", "yettel"]
+  },
+  {
+    "id": 85,
+    "ru_name": "Молдова",
+    "en_name": "Moldova",
+    "emoji": "🇲🇩",
+    "operators": ["idc", "moldcell", "orange", "unite"]
+  },
+  {
+    "id": 86,
+    "ru_name": "Италия",
+    "en_name": "Italy",
+    "emoji": "🇮🇹",
+    "operators": [
+      "digi",
+      "ho",
+      "kena_mobile",
+      "lycamobile",
+      "nt_mobile",
+      "optima",
+      "syma_mobile",
+      "tim",
+      "vodafone",
+      "wind"
+    ]
+  },
+  {
+    "id": 87,
+    "ru_name": "Парагвай",
+    "en_name": "Paraguay",
+    "emoji": "🇵🇾",
+    "operators": ["claro", "personal"]
+  },
+  {
+    "id": 88,
+    "ru_name": "Гондурас",
+    "en_name": "Honduras",
+    "emoji": "🇭🇳",
+    "operators": ["claro"]
+  },
+  {
+    "id": 89,
+    "ru_name": "Тунис",
+    "en_name": "Tunisia",
+    "emoji": "🇹🇳",
+    "operators": ["ooredoo", "orange", "tunicell"]
+  },
+  {
+    "id": 90,
+    "ru_name": "Никарагуа",
+    "en_name": "Nicaragua",
+    "emoji": "🇳🇮",
+    "operators": ["movistar"]
+  },
+  {
+    "id": 91,
+    "ru_name": "Тимор-Лесте",
+    "en_name": "Timorleste",
+    "emoji": "🇹🇱",
+    "operators": ["telemor", "telkomcel", "timor_telecom"]
+  },
+  {
+    "id": 92,
+    "ru_name": "Боливия",
+    "en_name": "Bolivia",
+    "emoji": "🇧🇴",
+    "operators": ["tigo", "viva"]
+  },
+  {
+    "id": 93,
+    "ru_name": "Коста Рика",
+    "en_name": "Costarica",
+    "emoji": "🇨🇷",
+    "operators": []
+  },
+  {
+    "id": 94,
+    "ru_name": "Гватемала",
+    "en_name": "Guatemala",
+    "emoji": "🇬🇹",
+    "operators": ["claro", "movistar", "tigo"]
+  },
+  {
+    "id": 95,
+    "ru_name": "ОАЭ",
+    "en_name": "Uae",
+    "emoji": "🇦🇪",
+    "operators": ["du"]
+  },
+  {
+    "id": 96,
+    "ru_name": "Зимбабве",
+    "en_name": "Zimbabwe",
+    "emoji": "🇿🇼",
+    "operators": ["econet"]
+  },
+  {
+    "id": 97,
+    "ru_name": "Пуэрто-Рико",
+    "en_name": "Puertorico",
+    "emoji": "🇵🇷",
+    "operators": []
+  },
+  {
+    "id": 98,
+    "ru_name": "Судан",
+    "en_name": "Sudan",
+    "emoji": "🇸🇩",
+    "operators": ["mtn", "sudani_one", "zain"]
+  },
+  {
+    "id": 99,
+    "ru_name": "Того",
+    "en_name": "Togo",
+    "emoji": "🇹🇬",
+    "operators": []
+  },
+  {
+    "id": 100,
+    "ru_name": "Кувейт",
+    "en_name": "Kuwait",
+    "emoji": "🇰🇼",
+    "operators": []
+  },
+  {
+    "id": 101,
+    "ru_name": "Сальвадор",
+    "en_name": "Salvador",
+    "emoji": "🇸🇻",
+    "operators": ["claro", "digi", "movistar", "red", "tigo"]
+  },
+  {
+    "id": 102,
+    "ru_name": "Ливия",
+    "en_name": "Libyan",
+    "emoji": "🇱🇾",
+    "operators": []
+  },
+  {
+    "id": 103,
+    "ru_name": "Ямайка",
+    "en_name": "Jamaica",
+    "emoji": "🇯🇲",
+    "operators": ["digi"]
+  },
+  {
+    "id": 104,
+    "ru_name": "Тринидад и Тобаго",
+    "en_name": "Trinidad",
+    "emoji": "🇹🇹",
+    "operators": []
+  },
+  {
+    "id": 105,
+    "ru_name": "Эквадор",
+    "en_name": "Ecuador",
+    "emoji": "🇪🇨",
+    "operators": ["claro", "cnt_mobile", "movistar", "tuenti"]
+  },
+  {
+    "id": 106,
+    "ru_name": "Свазиленд",
+    "en_name": "Swaziland",
+    "emoji": "🇸🇿",
+    "operators": []
+  },
+  {
+    "id": 107,
+    "ru_name": "Оман",
+    "en_name": "Oman",
+    "emoji": "🇴🇲",
+    "operators": []
+  },
+  {
+    "id": 108,
+    "ru_name": "Босния и Герцеговина",
+    "en_name": "Bosnia",
+    "emoji": "🇧🇦",
+    "operators": ["a1", "hej"]
+  },
+  {
+    "id": 109,
+    "ru_name": "Доминиканская Республика",
+    "en_name": "Dominican",
+    "emoji": "🇩🇴",
+    "operators": ["altice", "claro", "viva"]
+  },
+  {
+    "id": 110,
+    "ru_name": "Сирия",
+    "en_name": "Syrian",
+    "emoji": "🇸🇾",
+    "operators": []
+  },
+  {
+    "id": 111,
+    "ru_name": "Катар",
+    "en_name": "Qatar",
+    "emoji": "🇶🇦",
+    "operators": []
+  },
+  {
+    "id": 112,
+    "ru_name": "Панама",
+    "en_name": "Panama",
+    "emoji": "🇵🇦",
+    "operators": []
+  },
+  {
+    "id": 113,
+    "ru_name": "Куба",
+    "en_name": "Cuba",
+    "emoji": "🇨🇺",
+    "operators": ["cubacel"]
+  },
+  {
+    "id": 114,
+    "ru_name": "Мавритания",
+    "en_name": "Mauritania",
+    "emoji": "🇲🇷",
+    "operators": ["chinguitel", "mattel", "mauritel"]
+  },
+  {
+    "id": 115,
+    "ru_name": "Сьерра-Леоне",
+    "en_name": "Sierraleone",
+    "emoji": "🇸🇱",
+    "operators": ["africel", "airtel", "qcell"]
+  },
+  {
+    "id": 116,
+    "ru_name": "Иордания",
+    "en_name": "Jordan",
+    "emoji": "🇯🇴",
+    "operators": ["orange", "umniah", "xpress", "zain"]
+  },
+  {
+    "id": 117,
+    "ru_name": "Португалия",
+    "en_name": "Portugal",
+    "emoji": "🇵🇹",
+    "operators": ["lebara", "lycamobile", "nos", "vodafone"]
+  },
+  {
+    "id": 118,
+    "ru_name": "Барбадос",
+    "en_name": "Barbados",
+    "emoji": "🇧🇧",
+    "operators": []
+  },
+  {
+    "id": 119,
+    "ru_name": "Бурунди",
+    "en_name": "Burundi",
+    "emoji": "🇧🇮",
+    "operators": ["africel", "econet", "lacell", "telecel", "viettel"]
+  },
+  {
+    "id": 120,
+    "ru_name": "Бенин",
+    "en_name": "Benin",
+    "emoji": "🇧🇯",
+    "operators": ["airtel", "mtn"]
+  },
+  {
+    "id": 121,
+    "ru_name": "Бруней",
+    "en_name": "Brunei",
+    "emoji": "🇧🇳",
+    "operators": []
+  },
+  {
+    "id": 122,
+    "ru_name": "Багамы",
+    "en_name": "Bahamas",
+    "emoji": "🇧🇸",
+    "operators": []
+  },
+  {
+    "id": 123,
+    "ru_name": "Ботсвана",
+    "en_name": "Botswana",
+    "emoji": "🇧🇼",
+    "operators": ["be_mobile", "mascom", "orange"]
+  },
+  {
+    "id": 124,
+    "ru_name": "Белиз",
+    "en_name": "Belize",
+    "emoji": "🇧🇿",
+    "operators": []
+  },
+  {
+    "id": 125,
+    "ru_name": "ЦАР",
+    "en_name": "Caf",
+    "emoji": "🇨🇫",
+    "operators": []
+  },
+  {
+    "id": 126,
+    "ru_name": "Доминика",
+    "en_name": "Dominica",
+    "emoji": "🇩🇲",
+    "operators": []
+  },
+  {
+    "id": 127,
+    "ru_name": "Гренада",
+    "en_name": "Grenada",
+    "emoji": "🇬🇩",
+    "operators": []
+  },
+  {
+    "id": 128,
+    "ru_name": "Грузия",
+    "en_name": "Georgia",
+    "emoji": "🇬🇪",
+    "operators": ["beeline", "geocell", "hamrah_e_aval", "magticom"]
+  },
+  {
+    "id": 129,
+    "ru_name": "Греция",
+    "en_name": "Greece",
+    "emoji": "🇬🇷",
+    "operators": ["cosmote", "ose", "q_telecom", "vodafone", "wind"]
+  },
+  {
+    "id": 130,
+    "ru_name": "Гвинея-Бисау",
+    "en_name": "Guineabissau",
+    "emoji": "🇬🇼",
+    "operators": []
+  },
+  {
+    "id": 131,
+    "ru_name": "Гайана",
+    "en_name": "Guyana",
+    "emoji": "🇬🇾",
+    "operators": []
+  },
+  {
+    "id": 132,
+    "ru_name": "Исландия",
+    "en_name": "Iceland",
+    "emoji": "🇮🇸",
+    "operators": []
+  },
+  {
+    "id": 133,
+    "ru_name": "Коморы",
+    "en_name": "Comoros",
+    "emoji": "🇰🇲",
+    "operators": []
+  },
+  {
+    "id": 134,
+    "ru_name": "Сент-Китс и Невис",
+    "en_name": "Saintkitts",
+    "emoji": "🇰🇳",
+    "operators": []
+  },
+  {
+    "id": 135,
+    "ru_name": "Либерия",
+    "en_name": "Liberia",
+    "emoji": "🇱🇷",
+    "operators": ["cellcom", "comium", "libercell", "libtelco", "lonestar"]
+  },
+  {
+    "id": 136,
+    "ru_name": "Лесото",
+    "en_name": "Lesotho",
+    "emoji": "🇱🇸",
+    "operators": []
+  },
+  {
+    "id": 137,
+    "ru_name": "Малави",
+    "en_name": "Malawi",
+    "emoji": "🇲🇼",
+    "operators": []
+  },
+  {
+    "id": 138,
+    "ru_name": "Намибия",
+    "en_name": "Namibia",
+    "emoji": "🇳🇦",
+    "operators": []
+  },
+  {
+    "id": 139,
+    "ru_name": "Нигер",
+    "en_name": "Niger",
+    "emoji": "🇳🇪",
+    "operators": []
+  },
+  {
+    "id": 140,
+    "ru_name": "Руанда",
+    "en_name": "Rwanda",
+    "emoji": "🇷🇼",
+    "operators": ["airtel", "mtn"]
+  },
+  {
+    "id": 141,
+    "ru_name": "Словакия",
+    "en_name": "Slovakia",
+    "emoji": "🇸🇰",
+    "operators": ["o2", "orange"]
+  },
+  {
+    "id": 142,
+    "ru_name": "Суринам",
+    "en_name": "Suriname",
+    "emoji": "🇸🇷",
+    "operators": []
+  },
+  {
+    "id": 143,
+    "ru_name": "Таджикистан",
+    "en_name": "Tajikistan",
+    "emoji": "🇹🇯",
+    "operators": ["indigo", "megafon"]
+  },
+  {
+    "id": 144,
+    "ru_name": "Монако",
+    "en_name": "Monaco",
+    "emoji": "🇲🇨",
+    "operators": []
+  },
+  {
+    "id": 145,
+    "ru_name": "Бахрейн",
+    "en_name": "Bahrain",
+    "emoji": "🇧🇭",
+    "operators": []
+  },
+  {
+    "id": 146,
+    "ru_name": "Реюньон",
+    "en_name": "Reunion",
+    "emoji": "🇷🇪",
+    "operators": []
+  },
+  {
+    "id": 147,
+    "ru_name": "Замбия",
+    "en_name": "Zambia",
+    "emoji": "🇿🇲",
+    "operators": ["airtel", "mtn", "zamtel"]
+  },
+  {
+    "id": 148,
+    "ru_name": "Армения",
+    "en_name": "Armenia",
+    "emoji": "🇦🇲",
+    "operators": ["team", "viva", "vivo"]
+  },
+  {
+    "id": 149,
+    "ru_name": "Сомали",
+    "en_name": "Somalia",
+    "emoji": "🇸🇴",
+    "operators": []
+  },
+  {
+    "id": 150,
+    "ru_name": "Конго",
+    "en_name": "Congo",
+    "emoji": "🇨🇬",
+    "operators": ["airtel"]
+  },
+  {
+    "id": 151,
+    "ru_name": "Чили",
+    "en_name": "Chile",
+    "emoji": "🇨🇱",
+    "operators": ["claro", "entel", "movistar", "wom"]
+  },
+  {
+    "id": 152,
+    "ru_name": "Буркина-Фасо",
+    "en_name": "Burkinafaso",
+    "emoji": "🇧🇫",
+    "operators": ["airtel", "onatel", "telecel"]
+  },
+  {
+    "id": 153,
+    "ru_name": "Ливан",
+    "en_name": "Lebanon",
+    "emoji": "🇱🇧",
+    "operators": ["alfa", "ogero", "touch"]
+  },
+  {
+    "id": 154,
+    "ru_name": "Габон",
+    "en_name": "Gabon",
+    "emoji": "🇬🇦",
+    "operators": []
+  },
+  {
+    "id": 155,
+    "ru_name": "Албания",
+    "en_name": "Albania",
+    "emoji": "🇦🇱",
+    "operators": ["telekom", "vodafone"]
+  },
+  {
+    "id": 156,
+    "ru_name": "Уругвай",
+    "en_name": "Uruguay",
+    "emoji": "🇺🇾",
+    "operators": ["claro"]
+  },
+  {
+    "id": 157,
+    "ru_name": "Маврикий",
+    "en_name": "Mauritius",
+    "emoji": "🇲🇺",
+    "operators": []
+  },
+  {
+    "id": 158,
+    "ru_name": "Бутан",
+    "en_name": "Bhutan",
+    "emoji": "🇧🇹",
+    "operators": []
+  },
+  {
+    "id": 159,
+    "ru_name": "Мальдивы",
+    "en_name": "Maldives",
+    "emoji": "🇲🇻",
+    "operators": []
+  },
+  {
+    "id": 160,
+    "ru_name": "Гваделупа",
+    "en_name": "Guadeloupe",
+    "emoji": "🇬🇵",
+    "operators": []
+  },
+  {
+    "id": 161,
+    "ru_name": "Туркменистан",
+    "en_name": "Turkmenistan",
+    "emoji": "🇹🇲",
+    "operators": []
+  },
+  {
+    "id": 162,
+    "ru_name": "Французская Гвиана",
+    "en_name": "Frenchguiana",
+    "emoji": "🇬🇫",
+    "operators": []
+  },
+  {
+    "id": 163,
+    "ru_name": "Финляндия",
+    "en_name": "Finland",
+    "emoji": "🇫🇮",
+    "operators": ["dna", "elisa", "telia"]
+  },
+  {
+    "id": 164,
+    "ru_name": "Сент-Люсия",
+    "en_name": "Saintlucia",
+    "emoji": "🇱🇨",
+    "operators": []
+  },
+  {
+    "id": 165,
+    "ru_name": "Люксембург",
+    "en_name": "Luxembourg",
+    "emoji": "🇱🇺",
+    "operators": ["tango", "tiptop"]
+  },
+  {
+    "id": 166,
+    "ru_name": "Сент-Винсент и Гренадин",
+    "en_name": "Saintvincentgrenadines",
+    "emoji": "🇻🇨",
+    "operators": []
+  },
+  {
+    "id": 167,
+    "ru_name": "Экваториальная Гвинея",
+    "en_name": "Equatorialguinea",
+    "emoji": "🇬🇶",
+    "operators": []
+  },
+  {
+    "id": 168,
+    "ru_name": "Джибути",
+    "en_name": "Djibouti",
+    "emoji": "🇩🇯",
+    "operators": []
+  },
+  {
+    "id": 169,
+    "ru_name": "Антигуа и Барбуда",
+    "en_name": "Antiguabarbuda",
+    "emoji": "🇦🇬",
+    "operators": []
+  },
+  {
+    "id": 170,
+    "ru_name": "Острова Кайман",
+    "en_name": "Caymanislands",
+    "emoji": "🇰🇾",
+    "operators": []
+  },
+  {
+    "id": 171,
+    "ru_name": "Черногория",
+    "en_name": "Montenegro",
+    "emoji": "🇲🇪",
+    "operators": []
+  },
+  {
+    "id": 172,
+    "ru_name": "Дания",
+    "en_name": "Denmark",
+    "emoji": "🇩🇰",
+    "operators": ["lebara", "lycamobile", "telenor"]
+  },
+  {
+    "id": 173,
+    "ru_name": "Швейцария",
+    "en_name": "Switzerland",
+    "emoji": "🇨🇭",
+    "operators": ["lebara"]
+  },
+  {
+    "id": 174,
+    "ru_name": "Норвегия",
+    "en_name": "Norway",
+    "emoji": "🇳🇴",
+    "operators": ["lycamobile", "my_call", "telia"]
+  },
+  {
+    "id": 175,
+    "ru_name": "Австралия",
+    "en_name": "Australia",
+    "emoji": "🇦🇺",
+    "operators": ["lebara", "optus", "telstra", "vodafone"]
+  },
+  {
+    "id": 176,
+    "ru_name": "Эритрея",
+    "en_name": "Eritrea",
+    "emoji": "🇪🇷",
+    "operators": []
+  },
+  {
+    "id": 177,
+    "ru_name": "Южный Судан",
+    "en_name": "Southsudan",
+    "emoji": "🇸🇸",
+    "operators": ["mtn", "zain"]
+  },
+  {
+    "id": 178,
+    "ru_name": "Сан-Томе и Принсипи",
+    "en_name": "Saotomeandprincipe",
+    "emoji": "🇸🇹",
+    "operators": []
+  },
+  {
+    "id": 179,
+    "ru_name": "Аруба",
+    "en_name": "Aruba",
+    "emoji": "🇦🇼",
+    "operators": []
+  },
+  {
+    "id": 180,
+    "ru_name": "Монтсеррат",
+    "en_name": "Montserrat",
+    "emoji": "🇲🇸",
+    "operators": []
+  },
+  {
+    "id": 181,
+    "ru_name": "Ангилья",
+    "en_name": "Anguilla",
+    "emoji": "🇦🇮",
+    "operators": []
+  },
+  {
+    "id": 183,
+    "ru_name": "Северная Македония",
+    "en_name": "Northmacedonia",
+    "emoji": "🇲🇰",
+    "operators": ["a1", "lycamobile", "telekom", "vip"]
+  },
+  {
+    "id": 184,
+    "ru_name": "Республика Сейшелы",
+    "en_name": "Seychelles",
+    "emoji": "🇸🇨",
+    "operators": []
+  },
+  {
+    "id": 185,
+    "ru_name": "Новая Каледония",
+    "en_name": "Newcaledonia",
+    "emoji": "🇳🇨",
+    "operators": []
+  },
+  {
+    "id": 186,
+    "ru_name": "Кабо-Верде",
+    "en_name": "Capeverde",
+    "emoji": "🇨🇻",
+    "operators": []
+  },
+  {
+    "id": 187,
+    "ru_name": "США",
+    "en_name": "Usaphysical",
+    "emoji": "🇺🇸",
+    "operators": [
+      "at_t",
+      "boost_mobile",
+      "h2o_wireless",
+      "hello_mobile",
+      "joltmobile",
+      "lycamobile",
+      "mint_mobile",
+      "moabits",
+      "textnow",
+      "tmobile",
+      "ultra_mobile",
+      "us_mobile"
+    ]
+  },
+  {
+    "id": 189,
+    "ru_name": "Фиджи",
+    "en_name": "Fiji",
+    "emoji": "🇫🇯",
+    "operators": ["vodafone"]
+  },
+  {
+    "id": 196,
+    "ru_name": "Сингапур",
+    "en_name": "Singapore",
+    "emoji": "🇸🇬",
+    "operators": ["m1", "maxx", "simba", "singtel", "starhub"]
+  },
+  {
+    "id": 201,
+    "ru_name": "Гибралтар",
+    "en_name": "Gibraltar",
+    "emoji": "🇬🇮",
+    "operators": ["gibtele"]
+  },
+  {
+    "id": 203,
+    "ru_name": "Косово",
+    "en_name": "Kosovo",
+    "emoji": "🇽🇰",
+    "operators": []
+  }
+]

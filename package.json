@@ -17,6 +17,7 @@
     "@grammyjs/i18n": "^1.0.2",
     "@grammyjs/menu": "^1.2.2",
     "@types/lodash": "^4.17.7",
+    "axios": "^1.7.3",
     "grammy": "^1.27.0",
     "lodash": "^4.17.21"
   }
