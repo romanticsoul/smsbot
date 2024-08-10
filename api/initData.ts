@@ -31,6 +31,8 @@ export async function initData(): Promise<InitDataResult> {
 
   const prices = await getPrices();
 
+  console.log();
+
   // Создаем объекты для быстрого поиска стран и услуг
   const countryMap = countries.reduce((map, country) => {
     map[country.id] = { ...country, services: {} };
@@ -41,6 +43,8 @@ export async function initData(): Promise<InitDataResult> {
     map[service.id] = service.name;
     return map;
   }, {} as { [id: string]: string });
+
+  const serviceOrder = services.map((service) => service.id);
 
   for (const [countryId, serviceData] of Object.entries(prices)) {
     const countryIdNumber = Number(countryId);
@@ -54,6 +58,11 @@ export async function initData(): Promise<InitDataResult> {
           minPrice = Math.min(minPrice, priceNumber);
           totalCount += count;
         }
+
+        if (!serviceMap[serviceId]) {
+          console.log('Нет сервиса', serviceId);
+        }
+
         const service: Service = {
           id: serviceId,
           name: serviceMap[serviceId] || serviceId,
@@ -62,8 +71,18 @@ export async function initData(): Promise<InitDataResult> {
         };
         country.services[serviceId] = service;
       }
+
+      // Сортировка сервисов по исходному порядку в services.json
+      const sortedServices = Object.entries(country.services)
+        .sort(([a], [b]) => serviceOrder.indexOf(a) - serviceOrder.indexOf(b))
+        .reduce((acc, [serviceId, service]) => {
+          acc[serviceId] = service;
+          return acc;
+        }, {} as { [id: string]: Service });
+
       result[countryIdNumber] = {
         ...country,
+        services: sortedServices,
         ru_name: country.ru_name,
         en_name: country.en_name,
       };
