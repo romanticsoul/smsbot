@@ -11,7 +11,6 @@ import {
   type SessionFlavor,
 } from 'grammy';
 import { hydrate, type HydrateFlavor } from '@grammyjs/hydrate';
-// import { parseMode, type ParseModeFlavor } from '@grammyjs/parse-mode';
 import { I18n, type I18nFlavor } from '@grammyjs/i18n';
 import { Menu } from '@grammyjs/menu';
 import { chunk } from 'lodash';
@@ -21,7 +20,6 @@ import { setStatus } from './api/setStatus';
 import { buyNumber } from './helpers/buyNumber';
 import { waitingCode } from './helpers/waitingCode';
 import { escapeMarkdownV2 } from './helpers/escapeMarkdownV2';
-import type { Message } from 'grammy/types';
 
 const init = await initData();
 
@@ -62,14 +60,6 @@ bot.use(
 );
 bot.use(hydrate());
 bot.use(i18n);
-// bot.api.config.use(parseMode('MarkdownV2'));
-
-// * МЕНЮ ПОЛУЧЕННОГО КОДА
-const acceptCodeMenu = new Menu<MyContext>('accept-code-menu').text(
-  '⌛ Ждать другой код'
-);
-
-bot.use(acceptCodeMenu);
 
 // * МЕНЮ ПОКУПКИ НОМЕРА
 const buyNumberMessage = 'Купить номер';
@@ -96,7 +86,9 @@ buyNumberMenu.dynamic(async (ctx, range) => {
         if (data) {
           const { id, phone } = data;
           const locale = await ctx.i18n.getLocale();
-          const countryName = `${locale === 'ru' ? country.ru_name : country.en_name}`;
+          const countryName = `${country.emoji} ${
+            locale === 'ru' ? country.ru_name : country.en_name
+          }`;
 
           await message.editText(
             ctx.t('activation-success-message', {
@@ -133,7 +125,10 @@ buyNumberMenu.dynamic(async (ctx, range) => {
                 },
               });
 
-              waitForCodeAndReply(id, phone, ctx, message, count + 1);
+              const status = await setStatus({ id, status: 3 });
+              if (status === 'ACCESS_RETRY_GET') {
+                waitForCodeAndReply(id, phone, ctx, message, count + 1);
+              }
             }
           }
 
