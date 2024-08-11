@@ -31,8 +31,6 @@ export async function initData(): Promise<InitDataResult> {
 
   const prices = await getPrices();
 
-  console.log();
-
   // Создаем объекты для быстрого поиска стран и услуг
   const countryMap = countries.reduce((map, country) => {
     map[country.id] = { ...country, services: {} };

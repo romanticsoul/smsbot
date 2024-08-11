@@ -18,8 +18,12 @@
     "@grammyjs/menu": "^1.2.2",
     "@grammyjs/parse-mode": "^1.10.0",
     "@types/lodash": "^4.17.7",
+    "@types/qrcode": "^1.5.5",
     "axios": "^1.7.3",
+    "dayjs": "^1.11.12",
     "grammy": "^1.27.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "nanoid": "^5.0.7",
+    "qrcode": "^1.5.4"
   }
 }

@@ -20,11 +20,18 @@ import { setStatus } from './api/setStatus';
 import { buyNumber } from './helpers/buyNumber';
 import { waitingCode } from './helpers/waitingCode';
 import { escapeMarkdownV2 } from './helpers/escapeMarkdownV2';
+import qrcode from 'qrcode';
+import { createPayment } from './api/createPayment';
+import { getPaymentStatus } from './api/getPaymentStatus';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ru';
 
+dayjs.locale('ru');
 const init = await initData();
 
 type SessionData = {
   __language_code?: string;
+  balance: number;
   countryActivePage: number;
   serviceActivePage: number;
   selected_country: Country;
@@ -49,6 +56,7 @@ bot.use(
   session({
     initial: (): SessionData => {
       return {
+        balance: 0,
         countryActivePage: 0,
         serviceActivePage: 0,
         selected_country: init[0],
@@ -262,6 +270,13 @@ changeCountryMenu.dynamic(async (ctx, range) => {
   }
 });
 
+async function openTopUpMenu(ctx: MyContext) {
+  await ctx.editMessageCaption({
+    caption: 'Выберите сумму на которую хотите пополнить баланс',
+    reply_markup: topUpMenu,
+  });
+}
+
 // * ГЛАВНОЕ МЕНЮ
 const mainMenu = new Menu<MyContext>('main-menu')
   .text('✉ Купить номер', async (ctx) => await openServiceList(ctx))
@@ -270,21 +285,39 @@ const mainMenu = new Menu<MyContext>('main-menu')
   })
   .row()
   .text('🌎 Изменить страну', async (ctx) => await openCountryList(ctx))
-  .text('💰 Пополнить баланс', async (ctx) => {
-    await ctx.reply('⚒ В разработке');
-  });
+  .text('💰 Пополнить баланс', async (ctx) => await openTopUpMenu(ctx));
 
 mainMenu.register(changeServiceMenu, 'main-menu');
 mainMenu.register(changeCountryMenu);
 
-// * КНОПКА "🏠 МЕНЮ"
+// * КНОПКИ "🏠 МЕНЮ"
 const menuButton = new Menu<MyContext>('menu-button').text(
   '🏠 Меню',
   async (ctx) => await backToMainMenu(ctx)
 );
 
+// * МЕНЮ ПОПОЛНЕНИЯ БАЛАНСА
+const topUpMenu = new Menu<MyContext>('top-up-menu');
+topUpMenu
+  .text('50 ₽', async (ctx) => await paymentReceipt(ctx, 50))
+  .text('150 ₽', async (ctx) => await paymentReceipt(ctx, 150))
+  .text('300 ₽', async (ctx) => await paymentReceipt(ctx, 300))
+  .row()
+  .text('500 ₽', async (ctx) => await paymentReceipt(ctx, 500))
+  .text('1000 ₽', async (ctx) => await paymentReceipt(ctx, 1000))
+  .text('Своя сумма')
+  .row()
+  .text('🏠 На главную', async (ctx) => await backToMainMenu(ctx));
+
+mainMenu.register(topUpMenu);
 bot.use(mainMenu);
 bot.use(menuButton);
+
+const inlineMenuButton = new InlineKeyboard().text('🏠 Меню', 'menu');
+bot.callbackQuery(/menu/, async (ctx) => {
+  await ctx.answerCallbackQuery();
+  await backToMainMenu(ctx, true);
+});
 
 bot.callbackQuery(/cancelNumberFetch-(.+)/, async (ctx) => {
   const id = ctx.callbackQuery.data.split('-')[1];
@@ -323,6 +356,51 @@ bot.callbackQuery(/cancel-purchase:\d+:\d+:\d+:.+/, async (ctx) => {
   }
 });
 
+// * ЧЕК НА ОПЛАТУ
+async function paymentReceipt(ctx: MyContext, value: number) {
+  const { id, amount, confirmation } = await createPayment(value);
+
+  const buffer = await qrcode.toBuffer(confirmation.confirmation_url, {
+    color: { dark: '#ffffff', light: '#000000' },
+  });
+
+  const message = await ctx.replyWithPhoto(new InputFile(buffer as any), {
+    caption: ctx.t('payment-receipt', {
+      value: escapeMarkdownV2(amount.value),
+    }),
+    parse_mode: 'MarkdownV2',
+    reply_markup: new InlineKeyboard().url(
+      '🔗 Перейти к оплате',
+      confirmation.confirmation_url
+    ),
+  });
+
+  const timer = setInterval(async () => {
+    const data = await getPaymentStatus(id);
+
+    if (data.status != 'pending') {
+      clearInterval(timer);
+      console.log(data);
+      if (data.status === 'succeeded') {
+        const date = dayjs(data.captured_at).format('DD MMMM YYYY, HH:mm:ss');
+        await message.delete();
+        await ctx.reply(
+          ctx.t('successful-payment', {
+            id: escapeMarkdownV2(id),
+            value: escapeMarkdownV2(amount.value),
+            balance: escapeMarkdownV2((ctx.session.balance += value).toString()),
+            date: escapeMarkdownV2(date),
+          }),
+          {
+            parse_mode: 'MarkdownV2',
+            reply_markup: inlineMenuButton,
+          }
+        );
+      }
+    }
+  }, 3000);
+}
+
 // * ФУНКЦИИ ОТКРЫТИЯ МЕНЮ
 async function openCountryList(ctx: MyContext) {
   ctx.session.countryActivePage = 0;
@@ -348,7 +426,7 @@ async function openServicePage(ctx: MyContext) {
   });
 }
 
-async function backToMainMenu(ctx: MyContext) {
+async function backToMainMenu(ctx: MyContext, newAnswer = false) {
   ctx.session.from_buy_number = false;
   ctx.session.serviceActivePage = 0;
   ctx.session.countryActivePage = 0;
@@ -359,29 +437,44 @@ async function backToMainMenu(ctx: MyContext) {
     locale === 'ru' ? country.ru_name : country.en_name
   }`;
 
-  try {
-    await ctx.editMessageCaption({
-      caption: ctx.t('main-menu', {
-        balance: '⚒ В разработке',
-        country: escapeMarkdownV2(countryName),
-      }),
-      parse_mode: 'MarkdownV2',
-      reply_markup: mainMenu,
-    });
-  } catch (error) {
+  if (newAnswer) {
     await ctx.replyWithPhoto(new InputFile('./assets/banner2.png'), {
       caption: ctx.t('main-menu', {
-        balance: '⚒ В разработке',
+        balance: ctx.session.balance,
         country: escapeMarkdownV2(countryName),
       }),
       parse_mode: 'MarkdownV2',
       reply_markup: mainMenu,
     });
+  } else {
+    try {
+      await ctx.editMessageCaption({
+        caption: ctx.t('main-menu', {
+          balance: ctx.session.balance,
+          country: escapeMarkdownV2(countryName),
+        }),
+        parse_mode: 'MarkdownV2',
+        reply_markup: mainMenu,
+      });
+    } catch (error) {
+      await ctx.replyWithPhoto(new InputFile('./assets/banner2.png'), {
+        caption: ctx.t('main-menu', {
+          balance: ctx.session.balance,
+          country: escapeMarkdownV2(countryName),
+        }),
+        parse_mode: 'MarkdownV2',
+        reply_markup: mainMenu,
+      });
+    }
   }
 }
 
 // * БЛОК ЗАПУСКА БОТА
 bot.command('start', async (ctx) => await backToMainMenu(ctx));
+bot.command('menu', async (ctx) => await backToMainMenu(ctx));
+bot.callbackQuery(/delete/, async (ctx) => {
+  await ctx.deleteMessage();
+});
 bot.start();
 bot.catch((err) => {
   const ctx = err.ctx;
