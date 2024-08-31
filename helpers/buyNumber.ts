@@ -20,7 +20,10 @@ export async function buyNumber(
     };
   } else if (data === 'NO_NUMBERS') {
     console.log('Нет номера');
-    if (signal.aborted) return null;
+    if (signal.aborted) {
+      console.log('аборт');
+      return null;
+    }
 
     // await new Promise((resolve) => setTimeout(resolve, 1000));
     return buyNumber(countryId, serviceId, signal);

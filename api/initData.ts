@@ -1,6 +1,7 @@
 import services from '../JSON/services.json';
 import countries from '../JSON/countries.json';
 import { getPrices } from './getPrices';
+import { getUsdToRubRate } from './getUsdToRubRate';
 // import { getNumbersStatus } from './getNumbersStatus';
 
 export type Country = {
@@ -28,7 +29,7 @@ type InitDataResult = {
 export async function initData(): Promise<InitDataResult> {
   const start = performance.now();
   const result: InitDataResult = {};
-
+  const usdToRubRate = await getUsdToRubRate();
   const prices = await getPrices();
 
   // Создаем объекты для быстрого поиска стран и услуг
@@ -59,15 +60,15 @@ export async function initData(): Promise<InitDataResult> {
 
         if (!serviceMap[serviceId]) {
           console.log('Нет сервиса', serviceId);
+        } else {
+          const service: Service = {
+            id: serviceId,
+            name: serviceMap[serviceId] || serviceId,
+            price: Math.ceil(minPrice * usdToRubRate * 1.2),
+            count: totalCount,
+          };
+          country.services[serviceId] = service;
         }
-
-        const service: Service = {
-          id: serviceId,
-          name: serviceMap[serviceId] || serviceId,
-          price: minPrice,
-          count: totalCount,
-        };
-        country.services[serviceId] = service;
       }
 
       // Сортировка сервисов по исходному порядку в services.json

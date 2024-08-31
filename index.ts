@@ -25,6 +25,7 @@ import { createPayment } from './api/createPayment';
 import { getPaymentStatus } from './api/getPaymentStatus';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
+import { nanoid } from 'nanoid';
 
 dayjs.locale('ru');
 const init = await initData();
@@ -37,8 +38,17 @@ type SessionData = {
   selected_country: Country;
   selected_service?: Service;
   from_buy_number: boolean;
-  numberAbortController: {
+  AbortControllers: {
     [id: string]: AbortController | null;
+  };
+  activationHistory: {
+    [id: number]: {
+      id: number;
+      phone: number;
+      countryId: number;
+      serviceId: string;
+      status: 'active' | 'success' | 'cancelled';
+    };
   };
 };
 
@@ -61,7 +71,8 @@ bot.use(
         serviceActivePage: 0,
         selected_country: init[0],
         from_buy_number: false,
-        numberAbortController: {},
+        AbortControllers: {},
+        activationHistory: {},
       };
     },
   })
@@ -69,99 +80,122 @@ bot.use(
 bot.use(hydrate());
 bot.use(i18n);
 
-// * МЕНЮ ПОКУПКИ НОМЕРА
-const buyNumberMessage = 'Купить номер';
-const buyNumberMenu = new Menu<MyContext>('buy-number-menu');
-buyNumberMenu.dynamic(async (ctx, range) => {
-  const country = ctx.session.selected_country;
-  const service = ctx.session.selected_service;
-  console.log(service?.name);
+bot.api.setMyCommands([{ command: 'menu', description: '🏠 Открыть главное меню' }]);
 
-  if (service) {
-    range.text('✉ Получить СМС', async (ctx) => {
-      const abortControllerId = _.uniqueId();
-      const message = await ctx.reply('⌛ Идет поиск свободного номера', {
-        reply_markup: new InlineKeyboard().text(
-          '🚫 Отмена',
-          `cancelNumberFetch-${abortControllerId}`
-        ),
-      });
+// ВЕРСИЯ 3
+async function getSmsButtonHandler(countryId: number, serviceId: string, ctx: MyContext) {
+  const service = init[Number(countryId)].services[serviceId];
+  const country = init[Number(countryId)];
 
-      const controller = new AbortController();
-      ctx.session.numberAbortController[abortControllerId] = controller;
-
-      buyNumber(country.id, service.id, controller.signal).then(async (data) => {
-        if (data) {
-          const { id, phone } = data;
-          const locale = await ctx.i18n.getLocale();
-          const countryName = `${country.emoji} ${
-            locale === 'ru' ? country.ru_name : country.en_name
-          }`;
-
-          await message.editText(
-            ctx.t('activation-success-message', {
-              id: id.toString(),
-              country: escapeMarkdownV2(countryName),
-              service: escapeMarkdownV2(service.name),
-              number: phone.toString(),
-            }),
-            {
-              parse_mode: 'MarkdownV2',
-              reply_markup: new InlineKeyboard().text(
-                '🚫 Вернуть деньги',
-                `cancel-purchase:${id}:${phone}:${country.id}:${service.id}`
-              ),
-            }
-          );
-
-          async function waitForCodeAndReply(
-            id: number,
-            phone: number,
-            ctx: MyContext,
-            msg: typeof message,
-            count: number
-          ) {
-            const code = await waitingCode(id);
-            if (code) {
-              if (count === 1) await msg.editReplyMarkup();
-              await ctx.reply(ctx.t('activation-code', { code, count }), {
-                parse_mode: 'MarkdownV2',
-                reply_parameters: {
-                  quote: '☎ *Номер:*' + ' ⁨' + phone,
-                  quote_parse_mode: 'MarkdownV2',
-                  message_id: msg.message_id,
-                },
-              });
-
-              const status = await setStatus({ id, status: 3 });
-              if (status === 'ACCESS_RETRY_GET') {
-                waitForCodeAndReply(id, phone, ctx, message, count + 1);
-              }
-            }
-          }
-
-          waitForCodeAndReply(id, phone, ctx, message, 1);
-        } else {
-          ctx.session.numberAbortController[abortControllerId] = null;
-          await message.editText('🚫 Отмена покупки номера');
-        }
-      });
-    });
-  }
-
-  range.row();
-  range.text('⭐️ Добавить в избранное', async (ctx) => {
-    await ctx.reply('⚒ В разработке');
+  const abortControllerId = nanoid();
+  const controller = new AbortController();
+  ctx.session.AbortControllers[abortControllerId] = controller;
+  const message = await ctx.reply('⌛ Ожидайте, идет поиск свободного номера', {
+    // reply_markup: new InlineKeyboard().text(
+    //   '🚫 Отмена',
+    //   `cancel-rental:${abortControllerId}`
+    // ),
   });
-  range.text('🌎 Изменить страну', async (ctx) => {
+
+  buyNumber(country.id, service.id, controller.signal).then(async (data) => {
+    if (data) {
+      console.log('Успешная активация');
+
+      const { id, phone } = data;
+      const locale = await ctx.i18n.getLocale();
+      const countryName = `${country.emoji} ${
+        locale === 'ru' ? country.ru_name : country.en_name
+      }`;
+
+      ctx.session.AbortControllers[abortControllerId]?.abort();
+      delete ctx.session.AbortControllers[abortControllerId];
+
+      ctx.session.activationHistory[id] = {
+        id: id,
+        phone: phone,
+        countryId: country.id,
+        serviceId: service.id,
+        status: 'active',
+      };
+
+      await message.editText(
+        ctx.t('activation-success-message', {
+          id: id.toString(),
+          country: escapeMarkdownV2(countryName),
+          service: escapeMarkdownV2(service.name),
+          number: phone.toString(),
+        }),
+        {
+          parse_mode: 'MarkdownV2',
+          reply_markup: new InlineKeyboard().text(
+            '🚫 Вернуть деньги',
+            `refund-rental:${id}`
+          ),
+        }
+      );
+
+      async function waitForCodeAndReply(
+        id: number,
+        phone: number,
+        ctx: MyContext,
+        msg: typeof message,
+        count: number
+      ) {
+        const code = await waitingCode(id);
+        if (code) {
+          if (count === 1) await msg.editReplyMarkup();
+          await ctx.reply(ctx.t('activation-code', { code, count }), {
+            parse_mode: 'MarkdownV2',
+            reply_parameters: {
+              quote: '☎ *Номер:*' + ' ⁨' + phone,
+              quote_parse_mode: 'MarkdownV2',
+              message_id: msg.message_id,
+            },
+          });
+
+          const status = await setStatus({ id, status: 3 });
+          if (status === 'ACCESS_RETRY_GET') {
+            waitForCodeAndReply(id, phone, ctx, message, count + 1);
+          }
+        } else {
+          console.log(getCurrentTime(), 'ЧЕ');
+        }
+      }
+
+      waitForCodeAndReply(id, phone, ctx, message, 1);
+    }
+  });
+}
+
+function getCurrentTime(): string {
+  const now = new Date();
+
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  return `${hours}:${minutes}:${seconds}`;
+}
+
+// * МЕНЮ ПОКУПКИ НОМЕРА
+const buyNumberMenu = new Menu<MyContext>('buy-number-menu');
+buyNumberMenu
+  .text('✉ Получить смс', async (ctx) => {
+    const service = ctx.session.selected_service;
+    const country = ctx.session.selected_country;
+    if (service) await getSmsButtonHandler(country.id, service.id, ctx);
+  })
+  .row()
+  .text('⭐️ Добавить в избранное', async (ctx) => {
+    await ctx.reply('⚒ В разработке');
+  })
+  .text('🌎 Изменить страну', async (ctx) => {
     ctx.session.from_buy_number = true;
     await openCountryList(ctx);
-  });
-
-  range.row();
-  range.text('⬅ Назад', async (ctx) => await openServiceList(ctx));
-  range.text('🏠 На главную', async (ctx) => await backToMainMenu(ctx));
-});
+  })
+  .row()
+  .text('⬅ Назад', async (ctx) => await openServiceList(ctx))
+  .text('🏠 На главную', async (ctx) => await backToMainMenu(ctx));
 
 // * МЕНЮ ВЫБОРА СЕРВИСА
 const changeServiceMenu = new Menu<MyContext>('change-service-menu');
@@ -184,7 +218,7 @@ changeServiceMenu.dynamic(async (ctx, range) => {
       range.submenu('⬅ Назад', 'change-service-menu', () => {
         session.serviceActivePage--;
       });
-    } else range.text('ㅤ');
+    } else range.text('ㅤ', () => {});
 
     if (session.serviceActivePage > 0) {
       range.submenu(
@@ -198,7 +232,7 @@ changeServiceMenu.dynamic(async (ctx, range) => {
       range.submenu('Далее ➡', 'change-service-menu', () => {
         session.serviceActivePage++;
       });
-    } else range.text('ㅤ');
+    } else range.text('ㅤ', () => {});
   }
 
   range.row().text('🏠 На главную', async (ctx) => await backToMainMenu(ctx));
@@ -243,7 +277,7 @@ changeCountryMenu.dynamic(async (ctx, range) => {
       range.submenu('⬅ Назад', 'change-country-menu', () => {
         session.countryActivePage--;
       });
-    } else range.text('ㅤ');
+    } else range.text('ㅤ', () => {});
 
     if (session.countryActivePage > 0) {
       range.submenu(
@@ -257,7 +291,7 @@ changeCountryMenu.dynamic(async (ctx, range) => {
       range.submenu('Далее ➡', 'change-country-menu', () => {
         session.countryActivePage++;
       });
-    } else range.text('ㅤ');
+    } else range.text('ㅤ', () => {});
   }
 
   range.row();
@@ -279,7 +313,7 @@ async function openTopUpMenu(ctx: MyContext) {
 
 // * ГЛАВНОЕ МЕНЮ
 const mainMenu = new Menu<MyContext>('main-menu')
-  .text('✉ Купить номер', async (ctx) => await openServiceList(ctx))
+  .text('✉ Получить смс', async (ctx) => await openServiceList(ctx))
   .text('⭐️ Избранное', async (ctx) => {
     await ctx.reply('⚒ В разработке');
   })
@@ -289,12 +323,6 @@ const mainMenu = new Menu<MyContext>('main-menu')
 
 mainMenu.register(changeServiceMenu, 'main-menu');
 mainMenu.register(changeCountryMenu);
-
-// * КНОПКИ "🏠 МЕНЮ"
-const menuButton = new Menu<MyContext>('menu-button').text(
-  '🏠 Меню',
-  async (ctx) => await backToMainMenu(ctx)
-);
 
 // * МЕНЮ ПОПОЛНЕНИЯ БАЛАНСА
 const topUpMenu = new Menu<MyContext>('top-up-menu');
@@ -311,7 +339,6 @@ topUpMenu
 
 mainMenu.register(topUpMenu);
 bot.use(mainMenu);
-bot.use(menuButton);
 
 const inlineMenuButton = new InlineKeyboard().text('🏠 Меню', 'menu');
 bot.callbackQuery(/menu/, async (ctx) => {
@@ -319,19 +346,27 @@ bot.callbackQuery(/menu/, async (ctx) => {
   await backToMainMenu(ctx, true);
 });
 
-bot.callbackQuery(/cancelNumberFetch-(.+)/, async (ctx) => {
-  const id = ctx.callbackQuery.data.split('-')[1];
-  if (ctx.session.numberAbortController[id]) {
-    ctx.session.numberAbortController[id].abort();
-  }
-});
+// bot.callbackQuery(/cancel-rental:[^:]+/, (ctx) => {
+//   const id = ctx.callbackQuery.data.split(':')[1];
 
-bot.callbackQuery(/cancel-purchase:\d+:\d+:\d+:.+/, async (ctx) => {
+//   if (ctx.session.AbortControllers[id]) {
+//     // ctx.deleteMessage();
+//     ctx.session.AbortControllers[id].abort();
+//     delete ctx.session.AbortControllers[id];
+//   }
+
+//   ctx.answerCallbackQuery();
+// });
+
+bot.callbackQuery(/refund-rental:[^:]+/, async (ctx) => {
   await ctx.answerCallbackQuery();
-  const [_, id, phone, countryId, serviceId] = ctx.callbackQuery.data.split(':');
+  const [_, id] = ctx.callbackQuery.data.split(':');
   const status = await setStatus({ id: Number(id), status: 8 });
 
   if (status === 'ACCESS_CANCEL') {
+    ctx.session.activationHistory[Number(id)].status = 'cancelled';
+    const { countryId, serviceId, phone } = ctx.session.activationHistory[Number(id)];
+
     const locale = await ctx.i18n.getLocale();
     const service = init[Number(countryId)].services[serviceId];
     const country = init[Number(countryId)];
@@ -348,7 +383,11 @@ bot.callbackQuery(/cancel-purchase:\d+:\d+:\d+:.+/, async (ctx) => {
       }),
       {
         parse_mode: 'MarkdownV2',
-        reply_markup: menuButton,
+        reply_markup: new InlineKeyboard()
+          .text('⬅ Назад', `open-activation-page:${countryId}:${serviceId}`)
+          .text('🔄 Повторить', `repeat-activation:${id}`)
+          .row()
+          .text('🏠 На главную', 'menu'),
       }
     );
   } else {
@@ -406,6 +445,7 @@ async function openCountryList(ctx: MyContext) {
   ctx.session.countryActivePage = 0;
   await ctx.editMessageCaption({
     caption: ctx.t('change-country'),
+    parse_mode: 'MarkdownV2',
     reply_markup: changeCountryMenu,
   });
 }
@@ -414,16 +454,79 @@ async function openServiceList(ctx: MyContext) {
   ctx.session.from_buy_number = false;
   await ctx.editMessageCaption({
     caption: ctx.t('change-service'),
+    parse_mode: 'MarkdownV2',
     reply_markup: changeServiceMenu,
   });
 }
 
+bot.callbackQuery(/repeat-activation:[^:]+/, async (ctx) => {
+  await ctx.answerCallbackQuery();
+  const [_, activationId] = ctx.callbackQuery.data.split(':');
+  const { countryId, serviceId } = ctx.session.activationHistory[Number(activationId)];
+  await getSmsButtonHandler(countryId, serviceId, ctx);
+});
+
+bot.callbackQuery(/open-activation-page:[^:]+:[^:]+/, async (ctx) => {
+  await ctx.answerCallbackQuery();
+  const [_, countryId, serviceId] = ctx.callbackQuery.data.split(':');
+
+  const locale = await ctx.i18n.getLocale();
+  const service = init[Number(countryId)].services[serviceId];
+  const country = init[Number(countryId)];
+  const countryName = `${country.emoji} ${
+    locale === 'ru' ? country.ru_name : country.en_name
+  }`;
+
+  const caption = ctx.t('buy-number-message', {
+    price: service.price,
+    service: service.name,
+    country: escapeMarkdownV2(countryName),
+    balance: ctx.session.balance,
+  });
+
+  try {
+    await ctx.editMessageCaption({
+      caption: caption,
+      parse_mode: 'MarkdownV2',
+      reply_markup: buyNumberMenu,
+    });
+  } catch (error) {
+    await ctx.replyWithPhoto(new InputFile('./assets/banner2.png'), {
+      caption: caption,
+      parse_mode: 'MarkdownV2',
+      reply_markup: buyNumberMenu,
+    });
+  }
+});
+
 async function openServicePage(ctx: MyContext) {
   ctx.session.from_buy_number = true;
-  await ctx.editMessageCaption({
-    caption: buyNumberMessage,
-    reply_markup: buyNumberMenu,
+  const locale = await ctx.i18n.getLocale();
+  const country = ctx.session.selected_country;
+  const countryName = `${country.emoji} ${
+    locale === 'ru' ? country.ru_name : country.en_name
+  }`;
+
+  const caption = ctx.t('buy-number-message', {
+    price: ctx.session.selected_service!.price,
+    service: ctx.session.selected_service!.name,
+    country: escapeMarkdownV2(countryName),
+    balance: ctx.session.balance,
   });
+
+  try {
+    await ctx.editMessageCaption({
+      caption: caption,
+      parse_mode: 'MarkdownV2',
+      reply_markup: buyNumberMenu,
+    });
+  } catch (error) {
+    await ctx.replyWithPhoto(new InputFile('./assets/banner2.png'), {
+      caption: caption,
+      parse_mode: 'MarkdownV2',
+      reply_markup: buyNumberMenu,
+    });
+  }
 }
 
 async function backToMainMenu(ctx: MyContext, newAnswer = false) {
