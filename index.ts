@@ -12,7 +12,7 @@ import {
 } from 'grammy';
 import { hydrate, type HydrateFlavor } from '@grammyjs/hydrate';
 import { I18n, type I18nFlavor } from '@grammyjs/i18n';
-import { Menu } from '@grammyjs/menu';
+import { Menu, MenuRange } from '@grammyjs/menu';
 import { chunk } from 'lodash';
 import { initData, type Country, type Service } from './api/initData';
 import _ from 'lodash';
@@ -30,6 +30,8 @@ import { nanoid } from 'nanoid';
 dayjs.locale('ru');
 const init = await initData();
 
+const bannerImg = new InputFile('./assets/banner.jpg');
+
 type SessionData = {
   __language_code?: string;
   balance: number;
@@ -38,7 +40,7 @@ type SessionData = {
   selected_country: Country;
   selected_service?: Service;
   from_buy_number: boolean;
-  AbortControllers: {
+  abortControllers: {
     [id: string]: AbortController | null;
   };
   activationHistory: {
@@ -50,6 +52,10 @@ type SessionData = {
       status: 'active' | 'success' | 'cancelled';
     };
   };
+  favorites: {
+    countryId: number;
+    serviceId: string;
+  }[];
 };
 
 type MyContext = HydrateFlavor<Context> & SessionFlavor<SessionData> & I18nFlavor;
@@ -71,8 +77,9 @@ bot.use(
         serviceActivePage: 0,
         selected_country: init[0],
         from_buy_number: false,
-        AbortControllers: {},
+        abortControllers: {},
         activationHistory: {},
+        favorites: [],
       };
     },
   })
@@ -89,7 +96,7 @@ async function getSmsButtonHandler(countryId: number, serviceId: string, ctx: My
 
   const abortControllerId = nanoid();
   const controller = new AbortController();
-  ctx.session.AbortControllers[abortControllerId] = controller;
+  ctx.session.abortControllers[abortControllerId] = controller;
   const message = await ctx.reply('⌛ Ожидайте, идет поиск свободного номера', {
     // reply_markup: new InlineKeyboard().text(
     //   '🚫 Отмена',
@@ -107,8 +114,8 @@ async function getSmsButtonHandler(countryId: number, serviceId: string, ctx: My
         locale === 'ru' ? country.ru_name : country.en_name
       }`;
 
-      ctx.session.AbortControllers[abortControllerId]?.abort();
-      delete ctx.session.AbortControllers[abortControllerId];
+      ctx.session.abortControllers[abortControllerId]?.abort();
+      delete ctx.session.abortControllers[abortControllerId];
 
       ctx.session.activationHistory[id] = {
         id: id,
@@ -185,10 +192,11 @@ buyNumberMenu
     const country = ctx.session.selected_country;
     if (service) await getSmsButtonHandler(country.id, service.id, ctx);
   })
-  .row()
-  .text('⭐️ Добавить в избранное', async (ctx) => {
-    await ctx.reply('⚒ В разработке');
-  })
+  // .row()
+  // .dynamic(async (ctx, range) => {})
+  // .text('⭐️ Добавить в избранное', async (ctx) => {
+  //   await ctx.reply('⚒ В разработке');
+  // })
   .text('🌎 Изменить страну', async (ctx) => {
     ctx.session.from_buy_number = true;
     await openCountryList(ctx);
@@ -349,10 +357,10 @@ bot.callbackQuery(/menu/, async (ctx) => {
 // bot.callbackQuery(/cancel-rental:[^:]+/, (ctx) => {
 //   const id = ctx.callbackQuery.data.split(':')[1];
 
-//   if (ctx.session.AbortControllers[id]) {
+//   if (ctx.session.abortControllers[id]) {
 //     // ctx.deleteMessage();
-//     ctx.session.AbortControllers[id].abort();
-//     delete ctx.session.AbortControllers[id];
+//     ctx.session.abortControllers[id].abort();
+//     delete ctx.session.abortControllers[id];
 //   }
 
 //   ctx.answerCallbackQuery();
@@ -491,7 +499,7 @@ bot.callbackQuery(/open-activation-page:[^:]+:[^:]+/, async (ctx) => {
       reply_markup: buyNumberMenu,
     });
   } catch (error) {
-    await ctx.replyWithPhoto(new InputFile('./assets/banner2.png'), {
+    await ctx.replyWithPhoto(bannerImg, {
       caption: caption,
       parse_mode: 'MarkdownV2',
       reply_markup: buyNumberMenu,
@@ -521,7 +529,7 @@ async function openServicePage(ctx: MyContext) {
       reply_markup: buyNumberMenu,
     });
   } catch (error) {
-    await ctx.replyWithPhoto(new InputFile('./assets/banner2.png'), {
+    await ctx.replyWithPhoto(bannerImg, {
       caption: caption,
       parse_mode: 'MarkdownV2',
       reply_markup: buyNumberMenu,
@@ -541,7 +549,7 @@ async function backToMainMenu(ctx: MyContext, newAnswer = false) {
   }`;
 
   if (newAnswer) {
-    await ctx.replyWithPhoto(new InputFile('./assets/banner2.png'), {
+    await ctx.replyWithPhoto(bannerImg, {
       caption: ctx.t('main-menu', {
         balance: ctx.session.balance,
         country: escapeMarkdownV2(countryName),
@@ -560,7 +568,7 @@ async function backToMainMenu(ctx: MyContext, newAnswer = false) {
         reply_markup: mainMenu,
       });
     } catch (error) {
-      await ctx.replyWithPhoto(new InputFile('./assets/banner2.png'), {
+      await ctx.replyWithPhoto(bannerImg, {
         caption: ctx.t('main-menu', {
           balance: ctx.session.balance,
           country: escapeMarkdownV2(countryName),
@@ -573,7 +581,25 @@ async function backToMainMenu(ctx: MyContext, newAnswer = false) {
 }
 
 // * БЛОК ЗАПУСКА БОТА
-bot.command('start', async (ctx) => await backToMainMenu(ctx));
+bot.command('start', async (ctx) => {
+  // await ctx.reply('');
+  // await ctx.reply('', {});
+  await ctx.replyWithDocument(new InputFile('./assets/Пользовательское соглашение.pdf'), {
+    reply_markup: new InlineKeyboard().text('✅ Принять', 'accept'),
+    caption: `👋 Добро пожаловать в SMS SIMPLE BOT!
+
+📲 Этот бот поможет вам арендовать временный номер телефона для получения СМС на различных сервисах. Перед началом использования, пожалуйста, ознакомьтесь с нашим Пользовательским соглашением и примите его условия.
+
+✅ Нажмите "Принять", если согласны с условиями и хотите продолжить.`,
+  });
+});
+
+bot.callbackQuery(/accept/, async (ctx) => {
+  await ctx.answerCallbackQuery();
+  await ctx.deleteMessage();
+  await backToMainMenu(ctx, true);
+});
+
 bot.command('menu', async (ctx) => await backToMainMenu(ctx));
 bot.callbackQuery(/delete/, async (ctx) => {
   await ctx.deleteMessage();
