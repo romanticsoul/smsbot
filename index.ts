@@ -627,7 +627,7 @@ bot.command('start', async (ctx) => {
   //   });
 });
 
-// #
+// 
 
 bot.callbackQuery(/accept/, async (ctx) => {
   await ctx.answerCallbackQuery();
